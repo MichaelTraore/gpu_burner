@@ -1,74 +1,33 @@
 # gpu-burn
-Multi-GPU CUDA stress test
+Single-GPU CUDA stress test based on thrust. This is a fork from
 http://wili.cc/blog/gpu-burn.html
 
 # Easy docker build and run
 
 ```
-git clone https://github.com/wilicc/gpu-burn
-cd gpu-burn
-docker build -t gpu_burn .
-docker run --rm --gpus all gpu_burn
+git clone https://github.com/MichaelTraore/gpu_burner.git
+cd gpu-burner
+docker build -t gpu_burner .
+docker run --rm --gpus all gpu_burner
 ```
 
 # Building
 To build GPU Burn:
+```
+docker build -t gpu_burner .
+```
+Or directly with cmake :
 
-`make`
+```
+cmake build <your_build_directory>
+```
 
-To remove artifacts built by GPU Burn:
-
-`make clean`
-
-GPU Burn builds with a default Compute Capability of 5.0.
-To override this with a different value:
-
-`make COMPUTE=<compute capability value>`
-
-CFLAGS can be added when invoking make to add to the default
-list of compiler flags:
-
-`make CFLAGS=-Wall`
-
-LDFLAGS can be added when invoking make to add to the default
-list of linker flags:
-
-`make LDFLAGS=-lmylib`
-
-NVCCFLAGS can be added when invoking make to add to the default
-list of nvcc flags:
-
-`make NVCCFLAGS=-ccbin <path to host compiler>`
-
-CUDAPATH can be added to point to a non standard install or
-specific version of the cuda toolkit (default is 
-/usr/local/cuda):
-
-`make CUDAPATH=/usr/local/cuda-<version>`
-
-CCPATH can be specified to point to a specific gcc (default is
-/usr/bin):
-
-`make CCPATH=/usr/local/bin`
-
-CUDA_VERSION and IMAGE_DISTRO can be used to override the base
-images used when building the Docker `image` target, while IMAGE_NAME
-can be set to change the resulting image tag:
-
-`make IMAGE_NAME=myregistry.private.com/gpu-burn CUDA_VERSION=12.0.1 IMAGE_DISTRO=ubuntu22.04 image`
 
 # Usage
 
     GPU Burn
-    Usage: gpu_burn [OPTIONS] [TIME]
-    
-    -m X   Use X MB of memory
-    -m N%  Use N% of the available GPU memory
-    -d     Use doubles
-    -tc    Try to use Tensor cores (if available)
-    -l     List all GPUs in the system
-    -i N   Execute only on GPU N
-    -h     Show this help message
-    
+    Usage: docker run --rm --gpus all gpu_burner [TIME_IN_SECONDS]
     Example:
-    gpu_burn -d 3600
+    gpu_burner 3600
+
+    The default TIME_IN_SECONDS is 30 
